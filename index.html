@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reconciliation Report — S27UAT17 · 1040 · 2025</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f8fafc;color:#111827}
+.page{max-width:1380px;margin:0 auto;padding:28px 20px 60px}
+.hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px}
+.hdr-title{font-size:24px;font-weight:800;color:#111827;letter-spacing:-.3px}
+.hdr-sub{font-size:13px;color:#6b7280;margin-top:3px}
+.hdr-tag{margin-top:6px;display:inline-block;font-size:11.5px;font-weight:600;color:#374151;background:#f3f4f6;border:1px solid #e5e7eb;padding:2px 10px;border-radius:4px}
+.hdr-btns{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hdr-date{font-size:12px;color:#9ca3af}
+.btn{padding:7px 16px;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:none}
+.btn-dark{background:#111827;color:#fff}.btn-out{background:#fff;color:#374151;border:1px solid #e5e7eb}
+.btn:hover{opacity:.88}
+.banner{padding:10px 16px;margin-bottom:12px;font-size:13px;line-height:1.65}
+.ban-info{background:#fff;border:1px solid #e5e7eb;border-left:3px solid #111827;border-radius:0 6px 6px 0}
+.ban-warn{background:#FFFBEB;border:1px solid #FDE68A;border-left:3px solid #D97706;border-radius:0 6px 6px 0;color:#92400E}
+.cards{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.card{flex:1;min-width:100px;background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:13px 15px}
+.card-n{font-size:26px;font-weight:800;line-height:1;color:#111827}
+.card-n.red{color:#b91c1c}
+.card-l{font-size:12px;color:#6b7280;margin-top:4px}
+.legend{background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:9px 14px;margin-bottom:12px;font-size:12px;color:#6b7280;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.frow{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.fb{padding:4px 13px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid #e5e7eb;background:#fff;color:#6b7280;font-family:inherit}
+.fb.on{background:#111827;color:#fff;border-color:#111827}
+.flabel{font-size:12px;color:#9ca3af;margin-right:2px}
+.fsrch{padding:5px 12px;border-radius:20px;border:1.5px solid #e5e7eb;font-size:12px;font-family:inherit;outline:none;background:#fff;color:#111827;margin-left:auto;width:210px}
+.fsrch:focus{border-color:#111827}
+.tbl-outer{border-radius:6px;overflow:hidden;border:1px solid #e5e7eb}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1080px}
+thead th{background:#111827;color:#fff;padding:9px 12px;text-align:left;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;position:sticky;top:0;z-index:2}
+thead th.c{text-align:center}
+tbody tr{border-bottom:1px solid #f0f0f0}
+tbody tr:hover td{background:#f5f8ff!important}
+tbody td{padding:9px 12px;font-size:12.5px;color:#374151;vertical-align:top;background:#fff}
+td.cat-cell{font-size:11.5px;color:#6b7280;white-space:nowrap;width:14%}
+td.form-cell{width:16%}
+td.field-cell{font-weight:500;color:#111827;width:18%}
+td.val-cell{text-align:center;width:10%}
+td.status-cell{width:13%}
+td.action-cell{font-size:11.5px;color:#374151;line-height:1.6;width:19%;min-width:150px}
+tbody tr.form-row td{background:#fafafa;cursor:pointer}
+tbody tr.form-row:hover td{background:#eef3ff!important}
+.form-chev{display:inline-block;font-size:11px;color:#9ca3af;transition:transform .2s;margin-right:5px}
+.form-chev.open{transform:rotate(90deg)}
+.form-label{font-weight:700;color:#111827;font-size:13px}
+tbody tr.child-row td{background:#fdfeff}
+tbody tr.child-row td.field-cell{font-weight:400;color:#374151}
+.mono{font-family:Consolas,monospace;font-size:12.5px;font-weight:700;color:#111827}
+.mono-red{font-family:Consolas,monospace;font-size:12.5px;font-weight:700;color:#b91c1c}
+.st-mm   {color:#b91c1c;font-weight:700;font-size:12px}
+.st-mspb {color:#B45309;font-weight:700;font-size:12px}
+.st-mtax {color:#1d4ed8;font-weight:700;font-size:12px}
+.st-fmspb{color:#B45309;font-weight:700;font-size:12px}
+.st-fmtax{color:#1d4ed8;font-weight:700;font-size:12px}
+.tbl-foot{background:#f9fafb;padding:8px 14px;font-size:12px;color:#9ca3af;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
+tr.hidden-row{display:none!important}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body{background:#fff}.page{padding:6px;max-width:100%}
+  .no-print{display:none!important}
+  .tbl-wrap{overflow:visible}
+  table{min-width:0;width:100%;font-size:8.5px;table-layout:fixed}
+  thead th{font-size:8px!important;padding:4px 5px!important}
+  tbody td{padding:4px 5px!important;font-size:8.5px!important;word-break:break-word}
+  td.action-cell{font-size:7.5px!important}
+  thead{display:table-header-group}tr{page-break-inside:avoid}
+  tr.child-row.hidden-row{display:none!important}
+  @page{size:A3 landscape;margin:8mm 6mm}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+  <div>
+    <div class="hdr-title">Reconciliation Report</div>
+    <div class="hdr-sub">S27UAT17 &nbsp;·&nbsp; Form 1040 &nbsp;·&nbsp; Tax Year 2025 &nbsp;·&nbsp; GoSystem Tax RS</div>
+    <span class="hdr-tag">Classic Leadsheets</span>
+  </div>
+  <div class="hdr-btns no-print">
+    <span class="hdr-date" id="genDate"></span>
+    <button class="btn btn-out" onclick="dlCSV()">⬇ Download CSV</button>
+    <button class="btn btn-dark" onclick="window.print()">⬇ Save as PDF</button>
+  </div>
+</div>
+
+<div class="banner ban-info">
+  <strong style="color:#111827">Advisory — no changes are applied automatically.</strong>
+  For Classic binders, all corrections must be made in SPbinder first, then re-exported to GoSystem Tax RS. Do not edit GoSystem directly.
+</div>
+<div class="banner ban-warn" style="margin-bottom:18px">
+  ⟳ &nbsp;<strong>Results shown are from the last reconciliation run.</strong>
+  After making corrections in SPbinder, re-export and run reconciliation again from the SPbinder Reconciliation tab to get updated results.
+</div>
+
+<div class="cards">
+  <div class="card"><div class="card-n">11</div><div class="card-l">Total gaps</div></div>
+  <div class="card"><div class="card-n">1</div><div class="card-l">Forms missing in SPbinder</div></div>
+  <div class="card"><div class="card-n">1</div><div class="card-l">Forms missing in GoSystem</div></div>
+  <div class="card"><div class="card-n">2</div><div class="card-l">Fields missing in binder</div></div>
+  <div class="card"><div class="card-n">2</div><div class="card-l">Fields missing in GoSystem</div></div>
+  <div class="card"><div class="card-n red">5</div><div class="card-l">Mismatches</div></div>
+</div>
+
+<div class="legend">
+  <strong style="color:#374151">Status:</strong>
+  <span><span class="st-mm">Mismatch</span> — value on both sides but differs</span>·
+  <span><span class="st-mspb">Missing in binder</span> — in GoSystem, not in SPbinder</span>·
+  <span><span class="st-mtax">Missing in GoSystem</span> — in SPbinder, not in GoSystem</span>·
+  <span><span class="st-fmspb">Form missing in SPbinder</span></span>·
+  <span><span class="st-fmtax">Form missing in GoSystem</span></span>·
+  <span style="font-size:11px;background:#f3f4f6;border:1px solid #e5e7eb;padding:1px 8px;border-radius:10px">▶ row = form-level gap — click to expand fields</span>·
+  <span>GoSystem value in <strong style="color:#b91c1c">red</strong> on mismatch</span>
+</div>
+
+<div class="frow no-print">
+  <span class="flabel">Filter:</span>
+  <button class="fb on" onclick="setFilter('all',this)">All (11)</button>
+  <button class="fb" onclick="setFilter('mismatch',this)">Mismatch (5)</button>
+  <button class="fb" onclick="setFilter('missing_in_spb',this)">Missing in binder (2)</button>
+  <button class="fb" onclick="setFilter('missing_in_tax',this)">Missing in GoSystem (2)</button>
+  <button class="fb" onclick="setFilter('form_missing_in_spb',this)">Form missing in SPbinder (1)</button>
+  <button class="fb" onclick="setFilter('form_missing_in_tax',this)">Form missing in GoSystem (1)</button>
+  <input class="fsrch" id="srch" type="text" placeholder="Search field or form…" oninput="applyFilter()">
+</div>
+
+<div class="tbl-outer">
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Form name</th>
+          <th>Field name</th>
+          <th class="c">SPbinder value</th>
+          <th class="c">Tax software value</th>
+          <th>Status</th>
+          <th>Action / How to resolve</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+<tr class="row-data" data-status="mismatch" data-srch="employee zip wages-01 wages and salaries (irs w-2)">
+              <td class="cat-cell">Wages and Salaries (IRS W-2)</td>
+              <td class="form-cell"><span class="form-label">Wages-01</span></td>
+              <td class="field-cell">Employee ZIP</td>
+              <td class="val-cell"><span class="mono">645001</span></td>
+              <td class="val-cell"><span class="mono-red">85584</span></td>
+              <td class="status-cell"><span class="st-mm">Mismatch</span></td>
+              <td class="action-cell">The values differ between SPbinder and GoSystem. Check the source document to decide which side is correct. If SPbinder is wrong: open the Input Form, correct the value, save and re-export. If GoSystem is wrong: correct SPbinder first then re-export — do not edit GoSystem directly for Classic binders.</td>
+            </tr>
+<tr class="row-data" data-status="missing_in_spb" data-srch="employee address wages-01 wages and salaries (irs w-2)">
+              <td class="cat-cell">Wages and Salaries (IRS W-2)</td>
+              <td class="form-cell"><span class="form-label">Wages-01</span></td>
+              <td class="field-cell">Employee address</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">17890 SKYPARK CIRCLE Apt. No. 11</span></td>
+              <td class="status-cell"><span class="st-mspb">Missing in binder</span></td>
+              <td class="action-cell">This value is in GoSystem but is not yet in SPbinder. Verify it belongs in the binder. If yes: open the Input Form in SPbinder, enter the value, save and re-export.</td>
+            </tr>
+<tr class="row-data" data-status="missing_in_spb" data-srch="social security tax withheld wages-01 wages and salaries (irs w-2)">
+              <td class="cat-cell">Wages and Salaries (IRS W-2)</td>
+              <td class="form-cell"><span class="form-label">Wages-01</span></td>
+              <td class="field-cell">Social security tax withheld</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">347.2</span></td>
+              <td class="status-cell"><span class="st-mspb">Missing in binder</span></td>
+              <td class="action-cell">This value is in GoSystem but is not yet in SPbinder. Verify it belongs in the binder. If yes: open the Input Form in SPbinder, enter the value, save and re-export.</td>
+            </tr>
+<tr class="row-data" data-status="missing_in_tax" data-srch="social security tips wages-01 wages and salaries (irs w-2)">
+              <td class="cat-cell">Wages and Salaries (IRS W-2)</td>
+              <td class="form-cell"><span class="form-label">Wages-01</span></td>
+              <td class="field-cell">Social security tips</td>
+              <td class="val-cell"><span class="mono">6955</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"><span class="st-mtax">Missing in GoSystem</span></td>
+              <td class="action-cell">This value is in SPbinder but has not reached GoSystem. Re-export the binder from SPbinder, then Re-run reconciliation to confirm.</td>
+            </tr>
+<tr class="row-data" data-status="mismatch" data-srch="social security wages wages-01 wages and salaries (irs w-2)">
+              <td class="cat-cell">Wages and Salaries (IRS W-2)</td>
+              <td class="form-cell"><span class="form-label">Wages-01</span></td>
+              <td class="field-cell">Social security wages</td>
+              <td class="val-cell"><span class="mono">5600</span></td>
+              <td class="val-cell"><span class="mono-red">11600</span></td>
+              <td class="status-cell"><span class="st-mm">Mismatch</span></td>
+              <td class="action-cell">The values differ between SPbinder and GoSystem. Check the source document to decide which side is correct. If SPbinder is wrong: open the Input Form, correct the value, save and re-export. If GoSystem is wrong: correct SPbinder first then re-export — do not edit GoSystem directly for Classic binders.</td>
+            </tr>
+<tr class="row-data" data-status="missing_in_tax" data-srch="wages, tips other compensation wages-01 wages and salaries (irs w-2)">
+              <td class="cat-cell">Wages and Salaries (IRS W-2)</td>
+              <td class="form-cell"><span class="form-label">Wages-01</span></td>
+              <td class="field-cell">Wages, tips other compensation</td>
+              <td class="val-cell"><span class="mono">5600</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"><span class="st-mtax">Missing in GoSystem</span></td>
+              <td class="action-cell">This value is in SPbinder but has not reached GoSystem. Re-export the binder from SPbinder, then Re-run reconciliation to confirm.</td>
+            </tr>
+<tr class="row-data" data-status="mismatch" data-srch="medicare tax withheld mary m. smith xiii wages and salaries (irs w-2)">
+              <td class="cat-cell">Wages and Salaries (IRS W-2)</td>
+              <td class="form-cell"><span class="form-label">MARY M. SMITH XIII</span></td>
+              <td class="field-cell">Medicare tax withheld</td>
+              <td class="val-cell"><span class="mono">0</span></td>
+              <td class="val-cell"><span class="mono-red">250</span></td>
+              <td class="status-cell"><span class="st-mm">Mismatch</span></td>
+              <td class="action-cell">The values differ between SPbinder and GoSystem. Check the source document to decide which side is correct. If SPbinder is wrong: open the Input Form, correct the value, save and re-export. If GoSystem is wrong: correct SPbinder first then re-export — do not edit GoSystem directly for Classic binders.</td>
+            </tr>
+<tr class="row-data" data-status="mismatch" data-srch="medicare wages mary m. smith xiii wages and salaries (irs w-2)">
+              <td class="cat-cell">Wages and Salaries (IRS W-2)</td>
+              <td class="form-cell"><span class="form-label">MARY M. SMITH XIII</span></td>
+              <td class="field-cell">Medicare wages</td>
+              <td class="val-cell"><span class="mono">150</span></td>
+              <td class="val-cell"><span class="mono-red">0</span></td>
+              <td class="status-cell"><span class="st-mm">Mismatch</span></td>
+              <td class="action-cell">The values differ between SPbinder and GoSystem. Check the source document to decide which side is correct. If SPbinder is wrong: open the Input Form, correct the value, save and re-export. If GoSystem is wrong: correct SPbinder first then re-export — do not edit GoSystem directly for Classic binders.</td>
+            </tr>
+<tr class="row-data" data-status="mismatch" data-srch="social security tax withheld mary m. smith xiii wages and salaries (irs w-2)">
+              <td class="cat-cell">Wages and Salaries (IRS W-2)</td>
+              <td class="form-cell"><span class="form-label">MARY M. SMITH XIII</span></td>
+              <td class="field-cell">Social security tax withheld</td>
+              <td class="val-cell"><span class="mono">400</span></td>
+              <td class="val-cell"><span class="mono-red">200</span></td>
+              <td class="status-cell"><span class="st-mm">Mismatch</span></td>
+              <td class="action-cell">The values differ between SPbinder and GoSystem. Check the source document to decide which side is correct. If SPbinder is wrong: open the Input Form, correct the value, save and re-export. If GoSystem is wrong: correct SPbinder first then re-export — do not edit GoSystem directly for Classic binders.</td>
+            </tr>
+<tr class="form-row row-data" data-status="form_missing_in_tax"
+            data-srch="wages and salaries (irs w-2) (blank) wages and salaries (irs w-2)" onclick="toggleGroup('g2')">
+          <td class="cat-cell">Wages and Salaries (IRS W-2)</td>
+          <td class="form-cell">
+            <span class="form-chev" id="chev-g2">▶</span>
+            <span class="form-label">(blank)</span>
+          </td>
+          <td class="field-cell" style="font-style:italic;color:#9ca3af;font-size:11.5px">
+            13 fields — click to expand
+          </td>
+          <td class="val-cell"></td>
+          <td class="val-cell"></td>
+          <td class="status-cell"><span class="st-fmtax">Form missing in GoSystem</span></td>
+          <td class="action-cell">This entire form exists in SPbinder but GoSystem has no matching record. Re-export the binder from SPbinder, then Re-run reconciliation to confirm GoSystem received it.</td>
+        </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="employee zip (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Employee ZIP</td>
+              <td class="val-cell"><span class="mono">645001</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="employee address (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Employee address</td>
+              <td class="val-cell"><span class="mono">17890 SKYPARK CIRCLE Apt. No. 11</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="employee city (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Employee city</td>
+              <td class="val-cell"><span class="mono">IRVINE</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="employee fgn st or province (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Employee fgn st or province</td>
+              <td class="val-cell"><span class="mono">State</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="employee foreign country code (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Employee foreign country code</td>
+              <td class="val-cell"><span class="mono">AR</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="employee name (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Employee name</td>
+              <td class="val-cell"><span class="mono">MARY M. SMITH XIII</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="employee social security no (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Employee social security no</td>
+              <td class="val-cell"><span class="mono">987-65-4321</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="employee state (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Employee state</td>
+              <td class="val-cell"><span class="mono">FL</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="medicare tax withheld (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Medicare tax withheld</td>
+              <td class="val-cell"><span class="mono">300</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="medicare wages (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Medicare wages</td>
+              <td class="val-cell"><span class="mono">200</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="social security tax withheld (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Social security tax withheld</td>
+              <td class="val-cell"><span class="mono">100</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="social security wages (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Social security wages</td>
+              <td class="val-cell"><span class="mono">500</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g2" data-status="form_missing_in_tax" data-srch="wages, tips, other comp - py (blank)">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">(blank)</td>
+              <td class="field-cell" style="padding-left:22px">Wages, tips, other comp - PY</td>
+              <td class="val-cell"><span class="mono">300</span></td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="form-row row-data" data-status="form_missing_in_spb"
+            data-srch="wages and salaries (irs w-2) wages-02 wages and salaries (irs w-2)" onclick="toggleGroup('g3')">
+          <td class="cat-cell">Wages and Salaries (IRS W-2)</td>
+          <td class="form-cell">
+            <span class="form-chev" id="chev-g3">▶</span>
+            <span class="form-label">Wages-02</span>
+          </td>
+          <td class="field-cell" style="font-style:italic;color:#9ca3af;font-size:11.5px">
+            13 fields — click to expand
+          </td>
+          <td class="val-cell"></td>
+          <td class="val-cell"></td>
+          <td class="status-cell"><span class="st-fmspb">Form missing in SPbinder</span></td>
+          <td class="action-cell">This entire form exists in GoSystem but is missing from SPbinder. Add the form via the Input Form tab in SPbinder, populate all fields, save and re-export.</td>
+        </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="employee zip wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Employee ZIP</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">645001</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="employee address wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Employee address</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">17890 SKYPARK CIRCLE Apt. No. 11</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="employee city wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Employee city</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">IRVINE</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="employee fgn st or province wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Employee fgn st or province</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">State</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="employee foreign country code wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Employee foreign country code</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">AR</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="employee name wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Employee name</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">MARY M. SMITH XIII</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="employee social security no wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Employee social security no</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">987-65-4321</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="employee state wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Employee state</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">FL</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="medicare tax withheld wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Medicare tax withheld</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">300</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="medicare wages wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Medicare wages</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">200</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="social security tax withheld wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Social security tax withheld</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">100</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="social security wages wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Social security wages</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">50</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+<tr class="child-row row-data hidden-row"
+                data-formkey="g3" data-status="form_missing_in_spb" data-srch="wages, tips, other comp - py wages-02">
+              <td class="cat-cell"></td>
+              <td class="form-cell" style="padding-left:30px;color:#9ca3af;font-size:11.5px">Wages-02</td>
+              <td class="field-cell" style="padding-left:22px">Wages, tips, other comp - PY</td>
+              <td class="val-cell"><span style="color:#d1d5db;font-size:15px">—</span></td>
+              <td class="val-cell"><span class="mono">300</span></td>
+              <td class="status-cell"></td>
+              <td class="action-cell"></td>
+            </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="tbl-foot">
+    <span id="footCount">11 entries shown</span>
+    <span>View only — no edits can be made in this report</span>
+  </div>
+</div>
+</div>
+
+<script>
+document.getElementById('genDate').textContent = 'Generated: ' +
+  new Date().toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+
+var DATA = {"groups": [{"category": "Wages and Salaries (IRS W-2)", "form_name": "Wages and Salaries (IRS W-2)", "form_ids": "Wages-01", "group_status": "field_gaps", "fields": [{"field_name": "Employee ZIP", "spb_value": "645001", "tax_value": "85584", "status": "mismatch"}, {"field_name": "Employee address", "spb_value": "", "tax_value": "17890 SKYPARK CIRCLE Apt. No. 11", "status": "missing_in_spb"}, {"field_name": "Social security tax withheld", "spb_value": "", "tax_value": "347.2", "status": "missing_in_spb"}, {"field_name": "Social security tips", "spb_value": "6955", "tax_value": "", "status": "missing_in_tax"}, {"field_name": "Social security wages", "spb_value": "5600", "tax_value": "11600", "status": "mismatch"}, {"field_name": "Wages, tips other compensation", "spb_value": "5600", "tax_value": "", "status": "missing_in_tax"}]}, {"category": "Wages and Salaries (IRS W-2)", "form_name": "Wages and Salaries (IRS W-2)", "form_ids": "MARY M. SMITH XIII", "group_status": "field_gaps", "fields": [{"field_name": "Medicare tax withheld", "spb_value": "0", "tax_value": "250", "status": "mismatch"}, {"field_name": "Medicare wages", "spb_value": "150", "tax_value": "0", "status": "mismatch"}, {"field_name": "Social security tax withheld", "spb_value": "400", "tax_value": "200", "status": "mismatch"}]}, {"category": "Wages and Salaries (IRS W-2)", "form_name": "Wages and Salaries (IRS W-2)", "form_ids": "(blank)", "group_status": "form_missing_in_tax", "fields": [{"field_name": "Employee ZIP", "spb_value": "645001", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Employee address", "spb_value": "17890 SKYPARK CIRCLE Apt. No. 11", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Employee city", "spb_value": "IRVINE", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Employee fgn st or province", "spb_value": "State", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Employee foreign country code", "spb_value": "AR", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Employee name", "spb_value": "MARY M. SMITH XIII", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Employee social security no", "spb_value": "987-65-4321", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Employee state", "spb_value": "FL", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Medicare tax withheld", "spb_value": "300", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Medicare wages", "spb_value": "200", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Social security tax withheld", "spb_value": "100", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Social security wages", "spb_value": "500", "tax_value": "", "status": "form_missing_in_tax"}, {"field_name": "Wages, tips, other comp - PY", "spb_value": "300", "tax_value": "", "status": "form_missing_in_tax"}]}, {"category": "Wages and Salaries (IRS W-2)", "form_name": "Wages and Salaries (IRS W-2)", "form_ids": "Wages-02", "group_status": "form_missing_in_spb", "fields": [{"field_name": "Employee ZIP", "spb_value": "", "tax_value": "645001", "status": "form_missing_in_spb"}, {"field_name": "Employee address", "spb_value": "", "tax_value": "17890 SKYPARK CIRCLE Apt. No. 11", "status": "form_missing_in_spb"}, {"field_name": "Employee city", "spb_value": "", "tax_value": "IRVINE", "status": "form_missing_in_spb"}, {"field_name": "Employee fgn st or province", "spb_value": "", "tax_value": "State", "status": "form_missing_in_spb"}, {"field_name": "Employee foreign country code", "spb_value": "", "tax_value": "AR", "status": "form_missing_in_spb"}, {"field_name": "Employee name", "spb_value": "", "tax_value": "MARY M. SMITH XIII", "status": "form_missing_in_spb"}, {"field_name": "Employee social security no", "spb_value": "", "tax_value": "987-65-4321", "status": "form_missing_in_spb"}, {"field_name": "Employee state", "spb_value": "", "tax_value": "FL", "status": "form_missing_in_spb"}, {"field_name": "Medicare tax withheld", "spb_value": "", "tax_value": "300", "status": "form_missing_in_spb"}, {"field_name": "Medicare wages", "spb_value": "", "tax_value": "200", "status": "form_missing_in_spb"}, {"field_name": "Social security tax withheld", "spb_value": "", "tax_value": "100", "status": "form_missing_in_spb"}, {"field_name": "Social security wages", "spb_value": "", "tax_value": "50", "status": "form_missing_in_spb"}, {"field_name": "Wages, tips, other comp - PY", "spb_value": "", "tax_value": "300", "status": "form_missing_in_spb"}]}], "action": {"mismatch": "The values differ between SPbinder and GoSystem. Check the source document to decide which side is correct. If SPbinder is wrong: open the Input Form, correct the value, save and re-export. If GoSystem is wrong: correct SPbinder first then re-export — do not edit GoSystem directly for Classic binders.", "missing_in_tax": "This value is in SPbinder but has not reached GoSystem. Re-export the binder from SPbinder, then Re-run reconciliation to confirm.", "missing_in_spb": "This value is in GoSystem but is not yet in SPbinder. Verify it belongs in the binder. If yes: open the Input Form in SPbinder, enter the value, save and re-export.", "form_missing_in_tax": "This entire form exists in SPbinder but GoSystem has no matching record. Re-export the binder from SPbinder, then Re-run reconciliation to confirm GoSystem received it.", "form_missing_in_spb": "This entire form exists in GoSystem but is missing from SPbinder. Add the form via the Input Form tab in SPbinder, populate all fields, save and re-export."}};
+var expandState = {};
+var currentFilter = 'all';
+
+function toggleGroup(key) {
+  expandState[key] = !expandState[key];
+  var open = expandState[key];
+  var chev = document.getElementById('chev-' + key);
+  if(chev) chev.className = 'form-chev' + (open ? ' open' : '');
+  document.querySelectorAll('[data-formkey="' + key + '"]').forEach(function(tr) {
+    tr.classList.toggle('hidden-row', !open);
+  });
+  applyFilter();
+}
+
+function setFilter(val, btn) {
+  currentFilter = val;
+  document.querySelectorAll('.fb').forEach(function(b) { b.classList.remove('on'); });
+  btn.classList.add('on');
+  applyFilter();
+}
+
+function applyFilter() {
+  var srch = (document.getElementById('srch')||{value:''}).value.toLowerCase();
+  var visible = 0;
+  document.querySelectorAll('.row-data').forEach(function(tr) {
+    if(tr.classList.contains('child-row') && !expandState[tr.dataset.formkey]) {
+      tr.classList.add('hidden-row'); return;
+    }
+    var ms = currentFilter==='all' || tr.dataset.status===currentFilter;
+    var ss = !srch || (tr.dataset.srch||'').includes(srch);
+    var show = ms && ss;
+    tr.classList.toggle('hidden-row', !show);
+    if(show && !tr.classList.contains('child-row')) visible++;
+  });
+  document.getElementById('footCount').textContent =
+    visible + ' entr' + (visible!==1?'ies':'y') + ' shown';
+}
+
+function dlCSV() {
+  var SL = {mismatch:'Mismatch',missing_in_tax:'Missing in GoSystem',
+             missing_in_spb:'Missing in binder',
+             form_missing_in_spb:'Form missing in SPbinder',
+             form_missing_in_tax:'Form missing in GoSystem'};
+  var ACTION = DATA.action;
+  var lines = ['"Category","Form Name","Field Name","SPbinder Value","Tax Software Value","Status","Action"'];
+  DATA.groups.forEach(function(g) {
+    var ids = g.form_ids && g.form_ids !== '(no identifier)' ? g.form_ids : g.form_name;
+    var gs  = g.group_status;
+    g.fields.forEach(function(f) {
+      var st = gs==='field_gaps' ? f.status : gs;
+      lines.push([g.category, ids, f.field_name,
+                  f.spb_value||'', f.tax_value||'', SL[st]||st, ACTION[st]||'']
+        .map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(','));
+    });
+  });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'}));
+  a.download = 'Reconciliation_Report_S27UAT17_2025.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+applyFilter();
+</script>
+</body>
+</html>
